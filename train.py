@@ -124,7 +124,7 @@ def network():
     return net
 
 def predict_im(X,gt,net,mean,std):
-    print 'Predicting image'
+    print ('Predicting image')
     h,w,ch=X.shape
     y_pred=np.zeros((h,w),dtype='uint8')
     conv_filter_size=5;
@@ -132,13 +132,13 @@ def predict_im(X,gt,net,mean,std):
     reflect = cv2.copyMakeBorder(X,b_size,b_size,b_size,b_size,cv2.BORDER_REFLECT)
     
     for y in range(h):
-        print 'Y=',y
+        print ('Y=',y)
         for x in range(w):
             patch_i=reflect[y:y+conv_filter_size,y:y+conv_filter_size,:]
             patch_i=patch_i.transpose(2,0,1)
             patch_i=(patch_i[None,:]-mean)/std
             
-            print patch_i.shape
+            print (patch_i.shape)
             
             y_pred[y,x]=net.predict(patch_i)
     
@@ -158,7 +158,7 @@ def train_network(X,y,prefix,mean,std):
 def plot_predict_gt(y_pred,y_true,filename='./results/pines'):
     f, axarr = plt.subplots(2)
     
-    print y_true.shape
+    print (y_true.shape)
     axarr[0].imshow(y_pred.astype('uint8'))
     axarr[0].set_title('Predicted label')
     
@@ -198,9 +198,9 @@ def train_pines(is_train=True):
     X_test=(X_test-mean)/std    
     y_pred=net.predict(X_test)
     acc=np.sum(y_pred==y_test)*1.0/len(y_test)
-    print 'Test Accuracy= ',acc*100,' %'
+    print ('Test Accuracy= ',acc*100,' %')
     
-    print gt.shape
+    print (gt.shape)
     y_array=np.zeros(gt.shape,dtype='uint8')
     y_array[gt!=0]=net.predict((X-mean)/std)+1
     #y_array=predict_im(im,gt,net,mean,std)
@@ -240,7 +240,7 @@ def train_pavia(is_train=True):
     X_test=(X_test-mean)/std    
     y_pred=net.predict(X_test)
     acc=np.sum(y_pred==y_test)*1.0/len(y_test)
-    print 'Test Accuracy= ',acc*100,' %'
+    print ('Test Accuracy= ',acc*100,' %')
     
     
    
